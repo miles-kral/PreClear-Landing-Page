@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PreClear Pilot</title>
+  <meta name="description" content="PreClear blocks malicious files before they ever reach your systems. Pilot access available." />
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --text: #102033;
+      --muted: #5e6b7a;
+      --border: #dce4ef;
+      --primary: #0a3278;
+      --primary-dark: #08295f;
+      --danger: #a11b1b;
+      --warn: #8a5a00;
+      --ok: #135c32;
+      --shadow: 0 10px 30px rgba(16, 32, 51, 0.08);
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: rgba(247, 249, 252, 0.9);
+      border-bottom: 1px solid rgba(220, 228, 239, 0.85);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #3a66b8);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .hero {
+      padding: 72px 0 36px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eaf1ff;
+      color: var(--primary);
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      border: 1px solid #d7e3ff;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.2rem, 5vw, 4.1rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 700px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .hero-note {
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .demo-card {
+      padding: 24px;
+    }
+
+    .window-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d7dce4;
+    }
+
+    .dot:first-child { background: #f87171; }
+    .dot:nth-child(2) { background: #fbbf24; }
+    .dot:nth-child(3) { background: #34d399; }
+
+    .workflow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .workflow-step {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fbfcff;
+    }
+
+    .workflow-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .decision-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .decision-pill {
+      padding: 12px 10px;
+      text-align: center;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .allow { color: var(--ok); background: #e8f7ee; border-color: #cdebd8; }
+    .quarantine { color: var(--warn); background: #fff4dc; border-color: #f3dd9f; }
+    .block { color: var(--danger); background: #fde8e8; border-color: #f3b6b6; }
+
+    section {
+      padding: 26px 0;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      letter-spacing: -0.02em;
+    }
+
+    .section-copy {
+      margin: 0 0 22px;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .grid-3, .grid-2, .pricing-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1.05fr 0.95fr; }
+
+    .feature-card, .pricing-card, .cta-card {
+      padding: 22px;
+    }
+
+    .feature-card h3, .pricing-card h3, .cta-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .feature-card p, .pricing-card p, .cta-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .bullet-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .bullet-list li { margin: 8px 0; }
+
+    .pricing-highlight {
+      display: inline-block;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 12px 0 6px;
+      letter-spacing: -0.04em;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .flow-step {
+      padding: 18px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .flow-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #eaf1ff;
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      padding: 34px 0 60px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .pricing-grid,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .decision-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <img src="./static/Blue.png" alt="PreClear Logo" style="height:58px; width:auto; border-radius:10px; box-shadow: var(--shadow);" />
+        <div style="font-size:1.45rem; font-weight:800;">PreClear Pilot</div>
+      </div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#pilot">Pilot</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Pilot access available</div>
+        <h1>Block malicious files before they enter your environment.<h1>
+        <p>
+          PreClear inspects, blocks, or quarantines files at the point of upload—before they enter your environment.
+          Instead of reacting after entry, you enforce control at ingress.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://calendly.com/milos-kral-preclearsecurity/30min" target="_blank">Book a Demo</a>
+          <a class="btn btn-secondary" href="mailto:support@preclearsecurity.com?subject=PreClear%20Pilot%20Inquiry">Email Us</a>
+        </div>
+        <div class="hero-note">Designed for teams handling external uploads, partner files, recruiting documents, and unknown file intake.</div>
+      </div>
+
+      <div class="card demo-card">
+        <div class="window-bar">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="workflow">
+          <div class="workflow-step">
+            <div class="workflow-title">1. File Uploaded</div>
+            <div>File enters a monitored intake point before internal access is granted.</div>
+          </div>
+          <div class="workflow-step">
+            <div class="workflow-title">2. Pre-Ingress Inspection</div>
+            <div>PreClear evaluates type, indicators, reputation, and policy before system entry.</div>
+          </div>
+          <div class="workflow-step">
+            <div class="workflow-title">3. Enforcement Decision</div>
+            <div class="decision-row">
+              <div class="decision-pill allow">Allow</div>
+              <div class="decision-pill quarantine">Quarantine</div>
+              <div class="decision-pill block">Block</div>
+            </div>
+          </div>
+          <div class="workflow-step">
+            <div class="workflow-title">4. Alerts + Audit Trail</div>
+            <div>Slack alerts, history, PDF reports, and audit logs are generated in real time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">Used in real file intake workflows</h2>
+      <p class="section-copy">Early pilots focus on high-risk intake points where unknown files enter systems.</p>
+      <div class="grid-3">
+        <div class="card feature-card">
+          <h3>Recruiting / HR</h3>
+          <p>Resume and attachment intake from unknown external sources.</p>
+        </div>
+        <div class="card feature-card">
+          <h3>Vendors / Partners</h3>
+          <p>Files received from third parties before internal distribution.</p>
+        </div>
+        <div class="card feature-card">
+          <h3>Customer Uploads</h3>
+          <p>Documents submitted through portals, forms, or shared workflows.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="container">
+      <h2 class="section-title">Most security starts too late.</h2>
+      <p class="section-copy">
+        Most tools detect threats after they have already entered your environment. By the time downstream tools react, the file is already inside the system. PreClear moves enforcement upstream—before entry, not after compromise.
+      </p>
+      <div class="grid-3">
+        <div class="card feature-card">
+          <h3>Reactive by default</h3>
+          <p>Traditional workflows allow files in first, then rely on later detection and investigation.</p>
+        </div>
+        <div class="card feature-card">
+          <h3>Exposure compounds fast</h3>
+          <p>One malicious file can create downstream impact across users, endpoints, and internal systems.</p>
+        </div>
+        <div class="card feature-card">
+          <h3>Visibility without control</h3>
+          <p>Logging and alerts matter, but upstream enforcement reduces what ever reaches the environment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solution">
+    <div class="container">
+      <h2 class="section-title">A pre-ingress security layer for file intake.</h2>
+      <p class="section-copy">
+        PreClear gives organizations a lightweight front door for uploads: inspect first, decide immediately, then allow, quarantine, or block before entry.
+      </p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-number">1</div>
+          <strong>Upload</strong>
+          <span>Files enter through a controlled intake point.</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">2</div>
+          <strong>Inspect</strong>
+          <span>PreClear evaluates the file before internal access.</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">3</div>
+          <strong>Decide</strong>
+          <span>Every file gets an enforcement decision.</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-number">4</div>
+          <strong>Record</strong>
+          <span>Alerts, reports, and audit logs are captured automatically.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container grid-2">
+      <div class="card feature-card">
+        <h3>What the pilot includes</h3>
+        <ul class="bullet-list">
+          <li>Hosted access to the PreClear Pilot environment</li>
+          <li>File inspection with allow / quarantine / block decisions</li>
+          <li>Customer-specific login and role-based access</li>
+          <li>Real-time Slack alerting for blocked events</li>
+          <li>PDF inspection reports and exportable audit history</li>
+        </ul>
+      </div>
+      <div class="card feature-card">
+        <h3>Who it’s for</h3>
+        <ul class="bullet-list">
+          <li>Teams that regularly receive files from outside the organization</li>
+          <li>Recruiting and HR workflows handling resumes and attachments</li>
+          <li>Partner and vendor intake processes</li>
+          <li>Organizations that want prevention, visibility, and an audit trail</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container grid-2">
+      <div class="card feature-card">
+        <h2 class="section-title" style="margin-bottom: 10px;">What happens when a file is blocked?</h2>
+        <p>
+          PreClear turns a risky upload into a clear enforcement event before it reaches the environment.
+        </p>
+        <ul class="bullet-list">
+          <li>The file is stopped before internal access is granted</li>
+          <li>A BLOCK decision is shown immediately</li>
+          <li>A Slack alert is triggered for the security or operations team</li>
+          <li>An audit record and PDF inspection report are generated</li>
+        </ul>
+      </div>
+
+      <div class="card demo-card">
+        <div class="workflow-step block" style="margin-bottom:12px;">
+          <div class="workflow-title">🚫 BLOCKED BEFORE ENTRY</div>
+          <div>demo_block_sample.txt was stopped before system ingress.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-title">Slack Alert</div>
+          <div style="font-family: monospace; font-size: 0.92rem; color:#102033;">
+            PreClear BLOCK Alert<br>
+            Customer: ACME Corp<br>
+            Environment: Production<br>
+            File: demo_block_sample.txt<br>
+            Decision: BLOCK
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pilot">
+    <div class="container pricing-grid">
+      <div class="card pricing-card">
+        <h2 class="section-title" style="margin-bottom: 8px;">PreClear Pilot Program</h2>
+        <p class="section-copy" style="margin-bottom: 0; max-width: none;">
+          A limited pilot focused on validating pre-ingress security in real workflows.
+        </p>
+        <div class="pricing-highlight">Starting at $3,500/month</div>
+        <div class="subtle">Pricing depends on environments, volume, and deployment scope.</div>
+        <ul class="bullet-list">
+          <li>Full pilot platform access</li>
+          <li>Customer-specific configuration</li>
+          <li>Real-time alerting and audit trail</li>
+          <li>Direct iteration and support during the pilot</li>
+        </ul>
+      </div>
+
+      <div class="card pricing-card">
+        <h3>Why this pricing is structured this way</h3>
+        <p>
+          PreClear is not priced as a simple file upload tool. The pilot is positioned as a prevention and risk-reduction layer with real-time enforcement, reporting, and visibility.
+        </p>
+        <ul class="bullet-list">
+          <li>Stops risky files before entry</li>
+          <li>Reduces downstream incident exposure</li>
+          <li>Creates a usable audit trail for review and reporting</li>
+          <li>Provides a high-signal pilot environment for validation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="card cta-card">
+        <h2 class="section-title" style="margin-bottom: 8px;">Request Pilot Access</h2>
+        <p class="section-copy" style="margin-bottom: 18px; max-width: none;">
+          Interested in using PreClear in a real workflow? Reach out for pilot access, a live walkthrough, or a custom discussion around your intake process.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://calendly.com/milos-kral-preclearsecurity/30min" target="_blank">Book a Demo</a>
+          <a class="btn btn-secondary" href="mailto:support@preclearsecurity.com?subject=PreClear%20Pilot%20Inquiry">Email Us</a>
+        </div>
+        <div class="hero-note">Or email us directly: support@preclearsecurity.com.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>PreClear Pilot</div>
+      <div>Pre-ingress security for file intake workflows.</div>
+    </div>
+  </footer>
+</body>
+</html>
