@@ -380,8 +380,8 @@
         </p>
         <div class="actions">
           <a class="btn btn-primary" href="https://calendly.com/milos-kral-preclearsecurity/30min" target="_blank">Book a Demo</a>
-          <a class="btn btn-secondary" href="mailto:support@preclearsecurity.com?subject=PreClear%20Pilot%20Inquiry">Email Us</a>
         </div>
+        <div class="hero-note">No commitment - 15 min. walkthrough.</div>
         <div class="hero-note">Designed for teams handling external uploads, partner files, recruiting documents, and unknown file intake.</div>
       </div>
 
@@ -587,13 +587,34 @@
       <div class="card cta-card">
         <h2 class="section-title" style="margin-bottom: 8px;">Request Pilot Access</h2>
         <p class="section-copy" style="margin-bottom: 18px; max-width: none;">
-          Interested in using PreClear in a real workflow? Reach out for pilot access, a live walkthrough, or a custom discussion around your intake process.
+          Interested in using PreClear in a real workflow? Submit the form below and we’ll follow up to schedule a walkthrough.
         </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="https://calendly.com/milos-kral-preclearsecurity/30min" target="_blank">Book a Demo</a>
-          <a class="btn btn-secondary" href="mailto:support@preclearsecurity.com?subject=PreClear%20Pilot%20Inquiry">Email Us</a>
+
+        <form action="https://formspree.io/f/mnjllwdv" method="POST" style="display:grid; gap:14px; max-width:720px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <input type="text" name="name" placeholder="Your name" required style="padding:14px; border:1px solid var(--border); border-radius:12px; font-size:1rem;" />
+            <input type="email" name="email" placeholder="Business email" required style="padding:14px; border:1px solid var(--border); border-radius:12px; font-size:1rem;" />
+          </div>
+
+          <input type="text" name="company" placeholder="Company" style="padding:14px; border:1px solid var(--border); border-radius:12px; font-size:1rem;" />
+
+          <select name="interest" style="padding:14px; border:1px solid var(--border); border-radius:12px; font-size:1rem; background:white;">
+            <option value="Pilot Access">Request Pilot Access</option>
+            <option value="Demo">Book a Demo</option>
+            <option value="Partnership">Partnership / Investor Discussion</option>
+          </select>
+
+          <textarea name="message" rows="5" placeholder="Tell us about your file intake workflow or security use case" style="padding:14px; border:1px solid var(--border); border-radius:12px; font-size:1rem; font-family:Arial, Helvetica, sans-serif;"></textarea>
+
+          <div class="actions" style="margin-bottom:0;">
+            <button class="btn btn-primary" type="submit">Submit Request</button>
+            <a class="btn btn-secondary" href="https://calendly.com/milos-kral-preclearsecurity/30min" target="_blank">Book a Demo</a>
+          </div>
+        </form>
+
+        <div class="hero-note" style="margin-top:14px;">
+          Replace the Formspree action URL and Calendly link before publishing.
         </div>
-        <div class="hero-note">Or email us directly: support@preclearsecurity.com.</div>
       </div>
     </div>
   </section>
